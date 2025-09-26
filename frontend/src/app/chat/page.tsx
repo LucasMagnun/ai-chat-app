@@ -2,11 +2,11 @@
 
 import { useAuth } from "@/hooks/useAuth";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { signOut } from "firebase/auth";
 import { auth } from "@/firebase/firebaseConfig";
 
-import ChatList from "@/components/Chat/ChatList";
+import ChatList, { ChatListHandle } from "@/components/Chat/ChatList";
 import ChatForm from "@/components/Chat/ChatForm";
 import { Button } from "@/components/ui/button";
 import Sidebar from "@/components/Sidebar/Sidebar";
@@ -24,6 +24,8 @@ export default function ChatPage() {
 
   const [activeChat, setActiveChat] = useState<string | null>(null);
   const [chats, setChats] = useState<Conversation[]>([]);
+
+  const chatListRef = useRef<ChatListHandle>(null);
 
   // Buscar conversas ao carregar a página
   useEffect(() => {
@@ -121,7 +123,7 @@ export default function ChatPage() {
         <main className="flex flex-1 justify-center bg-gray-100 p-6 overflow-y-auto">
           <div className="flex flex-col w-full max-w-3xl h-full">
             {activeChat ? (
-              <ChatList chatId={activeChat} />
+              <ChatList ref={chatListRef} chatId={activeChat} />
             ) : (
               <p className="text-center text-gray-500 mt-10">
                 Selecione ou crie um chat para começar
@@ -135,6 +137,9 @@ export default function ChatPage() {
             {activeChat && (
               <ChatForm
                 chatId={activeChat}
+                startStream={(content) =>
+                  chatListRef.current?.startStream(content)
+                }
                 onMessageSent={async () => {
                   if (!token) return;
 

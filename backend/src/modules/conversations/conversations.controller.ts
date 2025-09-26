@@ -6,10 +6,13 @@ import {
   Get,
   Headers,
   UseGuards,
+  Sse,
+  Query,
 } from '@nestjs/common';
 import { ConversationService } from './conversations.service';
 import { Message } from '@prisma/client';
 import { FirebaseAuthGuard } from 'src/common/guards/firebase-auth.guard';
+import { Observable } from 'rxjs';
 
 @Controller('conversations')
 export class ConversationController {
@@ -61,8 +64,22 @@ export class ConversationController {
 
   @Get()
   @UseGuards(FirebaseAuthGuard)
-  async getAllConversations(@Headers("authorization") authHeader: string) {
-    const token = authHeader?.replace("Bearer ", "");
+  async getAllConversations(@Headers('authorization') authHeader: string) {
+    const token = authHeader?.replace('Bearer ', '');
     return this.conversationService.findAllUserConversations(token);
+  }
+
+  @Sse(':id/stream')
+  @UseGuards(FirebaseAuthGuard)
+  streamMessages(
+    @Param('id') conversationId: string,
+    @Query('content') content: string,
+    @Query('token') token: string, // pegar token direto da query
+  ): Observable<MessageEvent> {
+    return this.conversationService.streamMessage(
+      conversationId,
+      content,
+      token,
+    );
   }
 }

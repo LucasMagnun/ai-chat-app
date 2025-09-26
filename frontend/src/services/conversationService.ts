@@ -36,21 +36,54 @@ export async function getConversation(conversationId: string, token: string) {
 }
 
 export async function getMessages(conversationId: string) {
-  const res = await fetch(`${API_URL}/conversations/${conversationId}/messages`);
+  const res = await fetch(
+    `${API_URL}/conversations/${conversationId}/messages`
+  );
   if (!res.ok) throw new Error("Erro ao buscar mensagens");
   return res.json();
 }
 
-export async function sendMessage(conversationId: string, content: string, token: string) {
-  const res = await fetch(`${API_URL}/conversations/${conversationId}/messages`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-    body: JSON.stringify({ content }),
-  });
+export async function sendMessage(
+  conversationId: string,
+  content: string,
+  token: string
+) {
+  const res = await fetch(
+    `${API_URL}/conversations/${conversationId}/messages`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ content }),
+    }
+  );
 
   if (!res.ok) throw new Error("Erro ao enviar mensagem");
   return res.json();
+}
+
+export function streamMessage(
+  conversationId: string,
+  token: string,
+  content: string,
+  onChunk: (chunk: string) => void
+) {
+  const url = `${process.env.NEXT_PUBLIC_API_URL}/conversations/${conversationId}/stream`;
+
+  const eventSource = new EventSource(url, {
+    withCredentials: false, // se usar cookies, pode deixar true
+  });
+
+  eventSource.onmessage = (event) => {
+    onChunk(event.data); // cada pedaço recebido
+  };
+
+  eventSource.onerror = (err) => {
+    console.error("SSE error:", err);
+    eventSource.close();
+  };
+
+  return eventSource; // permite fechar depois
 }
