@@ -57,7 +57,7 @@ npx prisma generate
 Rode a aplicação:
 npm run start:dev
 
-Coloque o arquivo firebase-credentials.json na pasta config em src do backend
+Coloque o arquivo firebase-credentials.json na pasta raiz do backend
 
 Frontend
 
