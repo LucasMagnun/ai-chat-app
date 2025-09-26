@@ -28,8 +28,6 @@ Integração com backend via API
 
 Firebase Authentication
 
-Firebase Cloud Functions
-
 Prisma ORM
  com PostgreSQL
 
