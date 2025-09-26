@@ -66,16 +66,25 @@ NEXT_PUBLIC_FIREBASE_APP_ID=your-firebase-app-id
 NEXT_PUBLIC_API_URL=http://localhost:5000
 
 🚀 Configurar Backend
+
 cd backend
+
 cp .env.example .env   # configure suas variáveis
+
 npm install
+
 npx prisma migrate dev
+
 npm run dev
 
-Configurar Frontend
+🚀 Configurar Frontend
+
 cd frontend
+
 cp .env.example .env.local   # configure suas variáveis
+
 npm install
+
 npm run dev
 
 ✅ Funcionalidades
