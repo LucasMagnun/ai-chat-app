@@ -1,65 +1,43 @@
 📡 Chat IA Web App
 
-Este projeto é uma aplicação de chat integrada a uma Inteligência Artificial (IA), construída para fins de teste técnico. Possui autenticação de usuários via Firebase, backend em NestJS com Prisma e PostgreSQL, e frontend em Next.js com TailwindCSS e Shadcn UI.
+Este projeto é uma aplicação de chat integrada a uma Inteligência Artificial (IA). Possui autenticação de usuários via Firebase, backend em NestJS com Prisma e PostgreSQL, e frontend em Next.js com TailwindCSS e Shadcn UI.
 
 O sistema utiliza SSE (Server-Sent Events) para atualizar o chat em tempo real, proporcionando uma experiência fluida de conversa.
 
 🎯 Funcionalidades
 
 Login de usuário via Firebase Authentication.
-
 Envio e recebimento de mensagens com integração à IA (Google Gemini ou outra API).
-
 Listagem dinâmica das mensagens em tempo real (via SSE).
-
 Armazenamento das conversas no banco PostgreSQL via Prisma ORM.
-
 Interface responsiva construída com React, Next.js, TailwindCSS e Shadcn UI.
-
 Estrutura organizada e componentes reutilizáveis.
 
 🛠 Stack Tecnológica
 Frontend
 
 Framework: Next.js
-
 Estilização: TailwindCSS
-
 UI Components: Shadcn/UI
-
 Form Handling: react-hook-form
-
 Markdown Rendering: react-markdown
-
 Autenticação: Firebase Authentication
-
 Linguagem: TypeScript
 
 Backend
 
 Framework: NestJS
-
 ORM: Prisma
-
 Banco de Dados: PostgreSQL
-
 Realtime: Server-Sent Events (SSE)
-
 Autenticação: Firebase Authentication
-
-Deploy: Railway / Vercel / Firebase Hosting
 
 🚀 Como rodar o projeto
 Pré-requisitos
-
 Node.js (>=18)
-
 Yarn ou npm
-
 PostgreSQL
-
 Conta Firebase configurada com Authentication habilitado
-
 Chave da API da IA (ex.: Google Gemini)
 
 Vá para a pasta do backend:
