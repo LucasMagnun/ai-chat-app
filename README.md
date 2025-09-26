@@ -40,9 +40,13 @@ Frontend → Interface do usuário (React + Tailwind).
 Backend → Autenticação, integração com IA, persistência de dados (Firebase + Prisma + PostgreSQL).
 
 🔑 Variáveis de Ambiente
+
 Backend (.env)
+
 DATABASE_URL="postgresql://user:password@localhost:5432/chatdb?schema=public"
+
 FRONTEND_URL=http://localhost:3000
+
 GEMINI_API_KEY=your-gemini-api-key
 
 Frontend (.env.local)
