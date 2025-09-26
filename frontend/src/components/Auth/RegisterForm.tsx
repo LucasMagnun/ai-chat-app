@@ -43,7 +43,7 @@ export default function RegisterForm() {
 
     try {
       await registerUser(data.email, data.password);
-      router.push("/auth/login"); // redireciona para login após registro
+      router.push("/auth/login");
     } catch (err: any) {
       setError(err.message || "Falha ao registrar");
     }

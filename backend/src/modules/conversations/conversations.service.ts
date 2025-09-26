@@ -1,4 +1,4 @@
-import { Injectable,  } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { AuthService } from '../auth/auth.service';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import { MessageRepository } from '../messages/repositories/messages.repository';
@@ -22,10 +22,8 @@ export class ConversationService {
     content: string,
     token: string,
   ): Promise<Message> {
-    // 1. Validar usuário
     const user = await this.authService.validateUser(token);
 
-    // 2. Salvar mensagem USER
     await this.messageRepository.createMessage(
       content,
       MessageSender.USER,
@@ -33,18 +31,14 @@ export class ConversationService {
       user.id,
     );
 
-    // 3. Buscar histórico da conversa
     const messages = await this.getMessages(conversationId);
 
-    // 4. Montar prompt para Gemini
     const prompt = messages.map((m) => `${m.sender}: ${m.content}`).join('\n');
 
-    // 5. Chamar Gemini
     const model = this.genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
     const result = await model.generateContent(prompt);
     const aiResponse = result.response.text();
 
-    // 6. Salvar resposta AI
     const savedAiMessage = await this.messageRepository.createMessage(
       aiResponse,
       MessageSender.AI,
@@ -81,13 +75,9 @@ export class ConversationService {
   ): Observable<MessageEvent> {
     return new Observable<MessageEvent>(
       (subscriber: Subscriber<MessageEvent>) => {
-        // cria uma função async auxiliar
         const run = async () => {
           try {
-            // 1. Validar usuário
             const user = await this.authService.validateUser(token);
-
-            // 2. Salvar mensagem USER
             await this.messageRepository.createMessage(
               content,
               MessageSender.USER,
@@ -95,13 +85,11 @@ export class ConversationService {
               user.id,
             );
 
-            // 3. Buscar histórico
             const messages = await this.getMessages(conversationId);
             const prompt = messages
               .map((m) => `${m.sender}: ${m.content}`)
               .join('\n');
 
-            // 4. Chamar Gemini em stream
             const model = this.genAI.getGenerativeModel({
               model: 'gemini-2.5-flash',
             });
@@ -113,13 +101,11 @@ export class ConversationService {
               const text = chunk.text();
               fullResponse += text;
 
-              // envia cada pedaço via SSE
               subscriber.next({
                 data: text,
               } as MessageEvent);
             }
 
-            // 5. Salvar resposta AI completa
             await this.messageRepository.createMessage(
               fullResponse,
               MessageSender.AI,
@@ -132,10 +118,8 @@ export class ConversationService {
           }
         };
 
-        // executa a função
         run();
 
-        // retorno opcional de cleanup (quando o cliente fecha a conexão)
         return () => {
           console.log('SSE connection closed by client');
         };

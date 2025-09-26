@@ -4,10 +4,16 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { login } from "@/services/authService";
-  
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Form, FormField, FormItem, FormLabel, FormControl } from "@/components/ui/form";
+import {
+  Form,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormControl,
+} from "@/components/ui/form";
 
 type LoginFormValues = {
   email: string;
@@ -29,7 +35,7 @@ export default function LoginForm() {
     setError("");
     try {
       await login(data.email, data.password);
-      router.push("/chat"); // redireciona para o chat
+      router.push("/chat");
     } catch (err: any) {
       setError(err.message || "Falha no login");
     }
@@ -37,7 +43,10 @@ export default function LoginForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-4">
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="flex flex-col gap-4"
+      >
         <FormField
           control={form.control}
           name="email"

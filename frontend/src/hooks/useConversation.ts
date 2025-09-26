@@ -4,7 +4,7 @@ import { useAuth } from "./useAuth";
 import { Message } from "../types/message";
 
 export function useConversation(conversationId?: string) {
-  const { user, token } = useAuth();
+  const { token } = useAuth();
   const [messages, setMessages] = useState<Message[]>([]);
   const [loading, setLoading] = useState(false);
 
@@ -19,7 +19,11 @@ export function useConversation(conversationId?: string) {
 
   const sendMessage = async (content: string) => {
     if (!conversationId || !token) return;
-    const newMessage = await ConversationService.sendMessage(conversationId, content, token);
+    const newMessage = await ConversationService.sendMessage(
+      conversationId,
+      content,
+      token
+    );
     setMessages((prev: Message[]) => [...prev, newMessage]);
   };
 

@@ -43,9 +43,6 @@ export class ConversationController {
     );
   }
 
-  /**
-   * Retorna o histórico de mensagens de uma conversa
-   */
   @Get(':id/messages')
   @UseGuards(FirebaseAuthGuard)
   async getMessages(@Param('id') conversationId: string): Promise<Message[]> {
@@ -74,7 +71,7 @@ export class ConversationController {
   streamMessages(
     @Param('id') conversationId: string,
     @Query('content') content: string,
-    @Query('token') token: string, // pegar token direto da query
+    @Query('token') token: string,
   ): Observable<MessageEvent> {
     return this.conversationService.streamMessage(
       conversationId,

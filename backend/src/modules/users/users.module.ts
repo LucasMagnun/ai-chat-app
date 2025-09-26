@@ -10,7 +10,7 @@ import { AuthModule } from '../auth/auth.module';
   imports: [
     PrismaModule,
     forwardRef(() => AuthGuardModule),
-    forwardRef(() => AuthModule), // <-- adiciona isso
+    forwardRef(() => AuthModule),
   ],
   providers: [UsersService, UsersRepository],
   controllers: [UsersController],

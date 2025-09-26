@@ -7,10 +7,6 @@ import { User } from '@prisma/client';
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  /**
-   * GET /users/me
-   * Retorna o usuário logado.
-   */
   @UseGuards(FirebaseAuthGuard)
   @Get('me')
   async getMe(@Req() req: any): Promise<User | null> {
@@ -20,20 +16,12 @@ export class UsersController {
     return this.usersService.findByFirebaseUid(firebaseUid);
   }
 
-  /**
-   * GET /users/:id
-   * Retorna um usuário pelo ID.
-   */
   @UseGuards(FirebaseAuthGuard)
   @Get(':id')
   async getUserById(@Param('id') id: string): Promise<User | null> {
     return this.usersService.findById(id);
   }
 
-  /**
-   * GET /users
-   * Lista todos usuários.
-   */
   @UseGuards(FirebaseAuthGuard)
   @Get()
   async getAllUsers(): Promise<User[]> {

@@ -5,8 +5,8 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   app.enableCors({
-    origin: process.env.FRONTEND_URL || 'http://localhost:3001', // URL do seu front
-    credentials: true, // se for usar cookies/sessão
+    origin: process.env.FRONTEND_URL || 'http://localhost:3001',
+    credentials: true,
   });
 
   await app.listen(3000);

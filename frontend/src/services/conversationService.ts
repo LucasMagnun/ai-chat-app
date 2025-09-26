@@ -73,11 +73,11 @@ export function streamMessage(
   const url = `${process.env.NEXT_PUBLIC_API_URL}/conversations/${conversationId}/stream`;
 
   const eventSource = new EventSource(url, {
-    withCredentials: false, // se usar cookies, pode deixar true
+    withCredentials: false,
   });
 
   eventSource.onmessage = (event) => {
-    onChunk(event.data); // cada pedaço recebido
+    onChunk(event.data);
   };
 
   eventSource.onerror = (err) => {
@@ -85,5 +85,5 @@ export function streamMessage(
     eventSource.close();
   };
 
-  return eventSource; // permite fechar depois
+  return eventSource;
 }

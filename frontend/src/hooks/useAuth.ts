@@ -16,11 +16,9 @@ export function useAuth() {
       async (firebaseUser: User | null) => {
         if (firebaseUser) {
           try {
-            // pega token do firebase
             const token = await getIdToken(firebaseUser);
             localStorage.setItem("token", token);
 
-            // chama seu backend
             const res = await fetch(
               `${process.env.NEXT_PUBLIC_API_URL}/auth/me`,
               {
@@ -35,8 +33,8 @@ export function useAuth() {
             }
 
             const data = await res.json();
-            setUser(data); // aqui vem o user do banco
-            setToken(token); // adiciona token no estado
+            setUser(data);
+            setToken(token);
           } catch (err) {
             console.error(err);
             setUser(null);

@@ -19,15 +19,15 @@ export default function ChatForm({
   addMessage,
 }: ChatFormProps) {
   const [message, setMessage] = useState("");
-  const [loading, setLoading] = useState(false); // ✅ estado de carregamento
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!message.trim() || loading) return; // evita múltiplos envios
+    if (!message.trim() || loading) return;
 
     try {
-      setLoading(true); // ativa loading
+      setLoading(true);
 
       const token = localStorage.getItem("token");
       if (!token) throw new Error("Usuário não autenticado");
@@ -36,13 +36,11 @@ export default function ChatForm({
         id: String(Date.now()),
         content: message,
         sender: Sender.USER,
-        createdAt: new Date().toISOString(), // obrigatório
+        createdAt: new Date().toISOString(),
       };
 
-      // Adiciona mensagem localmente
       addMessage?.(userMessage);
 
-      // Envia mensagem para backend
       await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/conversations/${chatId}/messages`,
         {
@@ -55,7 +53,6 @@ export default function ChatForm({
         }
       );
 
-      // Inicia SSE para receber resposta da IA
       if (startStream) {
         startStream(message);
       }
@@ -68,7 +65,7 @@ export default function ChatForm({
     } catch (error) {
       console.error("Erro ao enviar mensagem:", error);
     } finally {
-      setLoading(false); // desativa loading
+      setLoading(false);
     }
   };
 
@@ -83,12 +80,12 @@ export default function ChatForm({
         onChange={(e) => setMessage(e.target.value)}
         placeholder="Digite sua mensagem..."
         className="flex-1 rounded-lg"
-        disabled={loading} // bloqueia input enquanto envia
+        disabled={loading}
       />
       <Button
         type="submit"
         className="bg-gradient-to-r from-blue-500 to-indigo-500 hover:opacity-90"
-        disabled={loading} // bloqueia botão enquanto envia
+        disabled={loading}
       >
         {loading ? "Enviando..." : "Enviar"} {/* feedback visual */}
       </Button>

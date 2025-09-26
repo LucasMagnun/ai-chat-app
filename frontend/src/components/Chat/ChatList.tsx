@@ -55,7 +55,6 @@ const ChatList = forwardRef<ChatListHandle, ChatListProps>(
     };
 
     const startStream = (content: string) => {
-      // Adiciona a mensagem do usuário
       setMessages((prev) => [
         ...prev,
         {
@@ -78,7 +77,6 @@ const ChatList = forwardRef<ChatListHandle, ChatListProps>(
 
       const aiMessageId = `ai-${Date.now()}`;
 
-      // Adiciona mensagem vazia da IA antes de receber o stream
       setMessages((prev) => [
         ...prev,
         {

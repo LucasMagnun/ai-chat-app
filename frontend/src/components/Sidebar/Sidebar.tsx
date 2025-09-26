@@ -18,7 +18,6 @@ export default function Sidebar({
         "w-16 hover:w-64"
       )}
     >
-      {/* Lista de conversas */}
       <div className="flex-1 overflow-y-auto p-2">
         {chats.map((chat) => (
           <Button
@@ -38,7 +37,6 @@ export default function Sidebar({
         ))}
       </div>
 
-      {/* Botão Nova Conversa */}
       <div className="p-2 border-t border-gray-700">
         <Button
           variant="default"
