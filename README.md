@@ -71,6 +71,8 @@ cd backend
 
 cp .env.example .env   # configure suas variáveis
 
+Colocar o arquivo firebase-credentials.json na raiz do backend
+
 npm install
 
 npx prisma migrate dev
