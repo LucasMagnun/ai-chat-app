@@ -1,7 +1,6 @@
 🧠 Chat com Integração de IA
 
 Este projeto consiste em uma aplicação Web de Chat com integração a um modelo de Inteligência Artificial (IA).
-A solução é dividida em dois repositórios: Frontend e Backend, utilizando tecnologias modernas para autenticação, armazenamento e comunicação com APIs de IA.
 
 📌 Objetivo
 
@@ -9,7 +8,7 @@ Permitir que o usuário:
 
 Faça login com Firebase Authentication.
 
-Troque mensagens com uma IA (ex.: Google Gemini API).
+Troque mensagens com uma IA
 
 Tenha suas conversas armazenadas em um banco relacional via Prisma ORM.
 
@@ -20,6 +19,8 @@ React
  + Next.js
 
 TailwindCSS
+
+Schadcn UI
 
 Integração com backend via API
 
