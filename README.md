@@ -47,8 +47,11 @@ Instale dependências:
 npm install
 
 Configure variáveis de ambiente em .env:
+
 DATABASE_URL="postgresql://user:password@localhost:5432/exammpledb?schema=public"
+
 FRONTEND_URL=
+
 GEMINI_API_KEY=
 
 npx prisma migrate dev
