@@ -1,6 +1,15 @@
-import { Controller, Post, Body, Param, Get, Headers } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  Param,
+  Get,
+  Headers,
+  UseGuards,
+} from '@nestjs/common';
 import { ConversationService } from './conversations.service';
 import { Message } from '@prisma/client';
+import { FirebaseAuthGuard } from 'src/common/guards/firebase-auth.guard';
 
 @Controller('conversations')
 export class ConversationController {
@@ -10,29 +19,50 @@ export class ConversationController {
    * Cria uma nova conversa para o usuário autenticado
    */
   @Post()
+  @UseGuards(FirebaseAuthGuard)
   async createConversation(@Headers('authorization') authHeader: string) {
     const token = authHeader?.replace('Bearer ', '');
     return this.conversationService.startConversation(token);
   }
 
-  /**
-   * Envia uma mensagem para a conversa e recebe resposta da IA
-   */
   @Post(':id/messages')
+  @UseGuards(FirebaseAuthGuard)
   async sendMessage(
     @Param('id') conversationId: string,
+    @Headers('authorization') authHeader: string,
     @Body('content') content: string,
-    @Headers('authorization') authHeader: string
-  ): Promise<Message> {
+  ) {
     const token = authHeader?.replace('Bearer ', '');
-    return this.conversationService.handleMessage(conversationId, content, token);
+    return this.conversationService.handleMessage(
+      conversationId,
+      content,
+      token,
+    );
   }
 
   /**
    * Retorna o histórico de mensagens de uma conversa
    */
   @Get(':id/messages')
+  @UseGuards(FirebaseAuthGuard)
   async getMessages(@Param('id') conversationId: string): Promise<Message[]> {
     return this.conversationService.getMessages(conversationId);
+  }
+
+  @Get(':id')
+  @UseGuards(FirebaseAuthGuard)
+  async getConversation(
+    @Param('id') conversationId: string,
+    @Headers('authorization') authHeader: string,
+  ) {
+    const token = authHeader?.replace('Bearer ', '');
+    return this.conversationService.getConversation(conversationId, token);
+  }
+
+  @Get()
+  @UseGuards(FirebaseAuthGuard)
+  async getAllConversations(@Headers("authorization") authHeader: string) {
+    const token = authHeader?.replace("Bearer ", "");
+    return this.conversationService.findAllUserConversations(token);
   }
 }

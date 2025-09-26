@@ -4,6 +4,7 @@ import { GoogleGenerativeAI } from '@google/generative-ai';
 import { MessageRepository } from '../messages/repositories/messages.repository';
 import { Message, MessageSender } from '@prisma/client';
 import { ConversationRepository } from './repositories/conversations.repository';
+import * as moment from "moment";
 
 @Injectable()
 export class ConversationService {
@@ -12,7 +13,7 @@ export class ConversationService {
   constructor(
     private readonly authService: AuthService,
     private readonly messageRepository: MessageRepository,
-    private readonly conversationRepository: ConversationRepository
+    private readonly conversationRepository: ConversationRepository,
   ) {}
 
   async handleMessage(
@@ -32,14 +33,13 @@ export class ConversationService {
     );
 
     // 3. Buscar histórico da conversa
-    const messages =
-      await this.getMessages(conversationId)
+    const messages = await this.getMessages(conversationId);
 
     // 4. Montar prompt para Gemini
     const prompt = messages.map((m) => `${m.sender}: ${m.content}`).join('\n');
 
     // 5. Chamar Gemini
-    const model = this.genAI.getGenerativeModel({ model: 'gemini-pro' });
+    const model = this.genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
     const result = await model.generateContent(prompt);
     const aiResponse = result.response.text();
 
@@ -55,10 +55,21 @@ export class ConversationService {
 
   async startConversation(token: string) {
     const user = await this.authService.validateUser(token);
-    return this.conversationRepository.createConversation(user.id);
+    const title = `Chat com IA - ${moment().format("DD/MM/YYYY HH:mm")}`;
+    return this.conversationRepository.createConversation(user.id, title);
   }
 
   async getMessages(conversationId: string): Promise<Message[]> {
     return this.messageRepository.getMessagesByConversationId(conversationId);
+  }
+
+  async getConversation(conversationId: string, token: string) {
+    const user = await this.authService.validateUser(token);
+    return this.conversationRepository.findById(conversationId, user.id);
+  }
+
+  async findAllUserConversations(token: string) {
+    const user = await this.authService.validateUser(token); // verifica o usuário
+    return this.conversationRepository.findAllUserConversations(user.id)
   }
 }
