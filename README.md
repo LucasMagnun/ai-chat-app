@@ -51,8 +51,13 @@ DATABASE_URL="postgresql://user:password@localhost:5432/exammpledb?schema=public
 FRONTEND_URL=
 GEMINI_API_KEY=
 
+npx prisma migrate dev
+npx prisma generate
+
 Rode a aplicação:
 npm run start:dev
+
+Coloque o arquivo firebase-credentials.json na raiz do backend
 
 Frontend
 
