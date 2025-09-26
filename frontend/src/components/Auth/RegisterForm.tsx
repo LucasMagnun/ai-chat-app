@@ -7,7 +7,13 @@ import { register as registerUser } from "@/services/authService";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Form, FormField, FormItem, FormLabel, FormControl } from "@/components/ui/form";
+import {
+  Form,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormControl,
+} from "@/components/ui/form";
 
 type RegisterFormValues = {
   email: string;
@@ -45,7 +51,10 @@ export default function RegisterForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-4">
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="flex flex-col gap-4"
+      >
         <FormField
           control={form.control}
           name="email"
@@ -89,6 +98,14 @@ export default function RegisterForm() {
 
         <Button type="submit" className="w-full">
           Registrar
+        </Button>
+        <Button
+          variant="outline"
+          type="button"
+          className="w-full"
+          onClick={() => router.push("/auth/login")}
+        >
+          Login
         </Button>
       </form>
     </Form>

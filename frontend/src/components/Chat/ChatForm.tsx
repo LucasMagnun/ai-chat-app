@@ -1,26 +1,14 @@
-"use client";
-
-import { useState } from "react";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-
-export default function ChatForm() {
-  const [message, setMessage] = useState("");
-
-  const sendMessage = () => {
-    if (!message.trim()) return;
-    console.log("Mensagem enviada:", message);
-    setMessage("");
-  };
-
+export default function ChatForm({ chatId }: { chatId: string }) {
   return (
-    <div className="flex gap-2">
-      <Input
-        value={message}
-        onChange={(e) => setMessage(e.target.value)}
-        placeholder="Digite sua mensagem..."
+    <form className="flex gap-2">
+      <input
+        type="text"
+        placeholder={`Mensagem para chat ${chatId}`}
+        className="flex-1 border rounded px-3 py-2"
       />
-      <Button onClick={sendMessage}>Enviar</Button>
-    </div>
+      <button type="submit" className="bg-blue-600 text-white px-4 rounded">
+        Enviar
+      </button>
+    </form>
   );
 }
